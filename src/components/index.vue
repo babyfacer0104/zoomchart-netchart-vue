@@ -367,7 +367,6 @@ export default {
 <style scope>
 .tree-container{
   width: 100%;
-  /* height: 400px; */
   margin: 10px 10px;
   border: 1px solid #2D2D2D;
   overflow: auto;
@@ -589,10 +588,6 @@ export default {
   transform: rotateX(180deg) rotateY(0deg);
 }
 
-.orgchart.b2t table{
-  /* transform: rotateY(180deg); */
-}
-
 .orgchart.b2t .node .title{
   transform: rotateX(180deg);
 }
@@ -621,8 +616,8 @@ export default {
   box-shadow: #E4E5E7 0 0 10px;
   opacity: 0.9;
 }
-
-
 /*公共样式  覆盖图表样式 最高节点ID样式 END */
+
+
 
 </style>
