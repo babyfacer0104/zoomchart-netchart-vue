@@ -11,6 +11,8 @@ Vue.config.productionTip = false
 
 import 'vue-orgchart/dist/style.min.css'
 
+import '@dvsl/zoomcharts/lib/assets/zc.css'
+
 // ajax
 import requestApi from './assets/axios/request.js'
 Vue.prototype.requestHttp = requestApi

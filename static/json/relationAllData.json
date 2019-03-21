@@ -1,0 +1,30 @@
+{
+  nodes:[
+    {"id":"n_1", user: '000000001', "loaded":true, "style":{"label":"孙静",}, radius: 20, color: 'yellow'},
+    {"id":"n_2", user: '000000002', "loaded":true, "style":{"label":"吴复申",}, radius: 20, color: 'yellow'},
+    {"id":"n_3", user: '000000002', "loaded":true, "style":{"label":"李栋",}, radius: 20, color: 'yellow'},
+    {"id":"n_4", user: '000000004', "loaded":true, "style":{"label":"深圳市小牛咨询有限公司",}, radius: 35, color: 'green'},
+    {"id":"n_5", user: '000000006', "loaded":true, "style":{"label":"更多",}, radius: 20, color: 'red'},
+    {"id":"n_6", user: '000000006', "loaded":true, "style":{"label":"刘印",}, radius: 20, color: 'red'},
+    {"id":"n_7", user: '000000007', "loaded":true, "style":{"label":"和海峰",}, radius: 35, color: 'blue'},
+    {"id":"n_8", user: '000000008', "loaded":true, "style":{"label":"张鑫",}, radius: 20, color: 'red'},
+    {"id":"n_9", user: '000000009', "loaded":true, "style":{"label":"刘书红",}, radius: 20, color: 'red'},
+    {"id":"n_10", user: '000000010', "loaded":true, "style":{"label":"李文静",}, radius: 20, color: 'red'},
+    {"id":"n_11", user: '000000011', "loaded":true, "style":{"label":"黄黎",}, radius: 20, color: 'red'},
+    {"id":"n_12", user: '000000012', "loaded":true, "style":{"label":"张燕娇",}, radius: 20, color: 'red'}
+  ],
+  links:[
+    {"id":"n_001","from":"n_4", "to":"n_1", "shares_perc":"100元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_002","from":"n_4", "to":"n_2", "shares_perc":"100元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_003","from":"n_4", "to":"n_3", "shares_perc":"100元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_004","from":"n_4", "to":"n_5", "shares_perc":"100元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_005","from":"n_5", "to":"n_6", "shares_perc":"200元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_006","from":"n_6", "to":"n_7", "shares_perc":"300元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_007","from":"n_7", "to":"n_8", "shares_perc":"400元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_008","from":"n_7", "to":"n_9", "shares_perc":"400元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_009","from":"n_7", "to":"n_10", "shares_perc":"400元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_010","from":"n_9", "to":"n_11", "shares_perc":"500元", "style":{"toDecoration":"arrow"}},
+    {"id":"n_011","from":"n_9", "to":"n_12", "shares_perc":"500元", "style":{"toDecoration":"arrow"}}
+  ]
+
+}

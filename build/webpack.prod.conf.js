@@ -114,6 +114,10 @@ const webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        from: './node_modules/@dvsl/zoomcharts/lib/assets',
+        to: 'assets'
       }
     ])
   ]
