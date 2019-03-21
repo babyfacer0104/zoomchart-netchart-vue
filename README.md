@@ -1,4 +1,4 @@
-# shop-vuex
+# capital-chain-vue
 
 > A Vue.js project
 
