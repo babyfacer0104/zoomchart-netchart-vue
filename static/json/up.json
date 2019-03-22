@@ -8,5 +8,6 @@
     {"id":"n_1","from":"n_4", "to":"n_1", "shares_perc":"100元", "nodeType": "up"},
     {"id":"n_2","from":"n_4", "to":"n_2", "shares_perc":"100元", "nodeType": "up"},
     {"id":"n_3","from":"n_4", "to":"n_3", "shares_perc":"100元", "nodeType": "up"}
-  ]
+  ],
+  "total": 5
 }

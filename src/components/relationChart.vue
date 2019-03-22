@@ -37,6 +37,7 @@ export default {
       chartByInitID: [], //存放更多展开的数据
       showMore: false,
       showDialog: false,
+      total: 4,//
     }
   },
   components: { 
@@ -162,12 +163,20 @@ export default {
             if(args.clickNode && args.clickNode.data.label == '点击展开'){
               that.showMore = true;
               that.loadApi('reload');
-              // that.netchart.reloadData();
-              // that.netchart.removeData({nodes:[{id:event.clickNode.id}]});
+            }
+            else if(args.clickNode && event.clickNode.data.type == 'more' && event.clickNode.data.nodeType == 'up'){
+              that.clickUpMoreChildHandle(event, args);
+            }
+            else if(args.clickNode && event.clickNode.data.type == 'more' && event.clickNode.data.nodeType == 'down'){
+              that.clickDownMoreChildHandle();
             }
             else{
               this.treeMenuHidden = false;
               that.menuHideHandle();
+            }
+
+            if(event.clickLink){
+              that.userDetailHandle();
             }
           }
         },
@@ -176,8 +185,11 @@ export default {
     },
     topNodeHandle() {
       let that = this, data = {};
+
       //请求主节点的数据 数组类型
       that.requestHttp.AJXAGET('../static/json/up.json', {},(data)=>{
+        let total = data.total;
+        let menuList = that.menuList;
         data = {"nodes": data.nodes, "links": data.links};
         //为了存储每次新增的值 展开更多的时候使用
         data.nodes.map((v, i)=>{
@@ -186,6 +198,11 @@ export default {
         data.links.map((v, i)=>{
           that.addLinksData.push(v);
         });
+
+        if(total > that.total){
+          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.id, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
+          data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "up"});
+        }
 
         that.netchart.addData(data);
         that.menuHideHandle();
@@ -208,9 +225,47 @@ export default {
         that.menuHideHandle();
       });
     },
-    menuHiddenHandle(val){
-      let event = val.menuList;
-      this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
+    //上游 点击更多
+    clickUpMoreChildHandle(event, args) {
+      let that = this, data = {};
+      //请求主节点的数据 数组类型
+      that.requestHttp.AJXAGET('../static/json/up?pageNo=2.json', {},(data)=>{
+        this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
+        //
+        data = {"nodes": data.nodes, "links": data.links};
+
+        //为了存储每次新增的值 展开更多的时候使用
+        data.nodes.map((v, i)=>{
+          that.addNodeData.push(v);
+        });
+        data.links.map((v, i)=>{
+          that.addLinksData.push(v);
+        });
+
+        that.netchart.addData(data);
+        that.menuHideHandle();
+      });
+    },
+    //下游 点击更多
+    clickDownMoreChildHandle(event, args) {
+      let that = this, data = {};
+      //请求主节点的数据 数组类型
+      that.requestHttp.AJXAGET('../static/json/down?pageNo=2.json', {},(data)=>{
+        this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
+        //
+        data = {"nodes": data.nodes, "links": data.links};
+
+        //为了存储每次新增的值 展开更多的时候使用
+        data.nodes.map((v, i)=>{
+          that.addNodeData.push(v);
+        });
+        data.links.map((v, i)=>{
+          that.addLinksData.push(v);
+        });
+
+        that.netchart.addData(data);
+        that.menuHideHandle();
+      });
     },
     nodeStyle(node){
       if(node.data.radius == 35 && node.data.type != "more" && node.data.nodeType == "path"){
@@ -232,7 +287,9 @@ export default {
     linkStyle(link){
       link.radius = 1; // 带箭头线的大小
       link.label = link.data.shares_perc;
-      link.labelStyle.backgroundStyle = {fillColor:"transparent"};
+      link.labelStyle.backgroundStyle = {fillColor:"#f9f9f9"};//transparent
+
+      //
       if(link.data.nodeType == "up"){
         link.fromDecoration="arrow";
         link.fillColor = "#FBCB56";
@@ -251,6 +308,7 @@ export default {
       this.$refs['dealDetails'].style.top = "0px";
     },
     menuShowHandle(event){
+      this.menuList = event;
       this.$refs['dealDetails'].style.display = "block";
       this.$refs['dealDetails'].style.left = event.pageX + "px";
       this.$refs['dealDetails'].style.top = event.pageY + "px";
@@ -261,6 +319,11 @@ export default {
     },
     closeHandle(v){
       this.showDialog = v;
+    },
+    //删除子节点id
+    menuHiddenHandle(val){
+      let event = val.menuList;
+      this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
     },
     preventDefault(e) {
       e.preventDefault();
