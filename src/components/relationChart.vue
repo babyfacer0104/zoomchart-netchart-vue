@@ -23,7 +23,9 @@ export default {
   name: 'relationChart',
   data() {
     return {
-      initChartData: '',
+      addChartData: '',
+      addNodeData: [],
+      addLinksData: [],
       chartData: '', //
       chartDataLength: 0, //
       treeMenuHidden: false,
@@ -32,7 +34,7 @@ export default {
       offsetTop: 0,
       offsetLeft: 0,
       menuList: '',
-      chartInitID: [], //存放更多展开的数据
+      chartByInitID: [], //存放更多展开的数据
       showMore: false,
       showDialog: false,
     }
@@ -42,18 +44,18 @@ export default {
     Dialog
   },
   created () {
-    this.loadApi();
+    this.loadApi('initload');
   },
   mounted() {
   },
   methods: {
     //主路径API
-    loadApi() {
+    loadApi(result) {
       let that = this;
       //请求主节点的数据 数组类型
       that.requestHttp.AJXAGET('../static/json/relationPath.json', {},(data)=>{
         let nodes = [], links = [], pageX = 120;
-        let chartData = that.initChartData = {"nodes": data.nodes, "links": data.links};
+        let chartData = {"nodes": data.nodes, "links": data.links};
         that.chartDataLength = data.nodes.length;
 
         if(data.nodes.length > 5 && !that.showMore){
@@ -62,11 +64,14 @@ export default {
             if(i > 3 && v.radius == 20){
               return false;
             }
-            if(i == 2){
-              nodes.push({"id": "more_"+v.id, "user": "more_"+v.user, "label": "点击展开", "radius": 20, "type": "more", "nodeType": "path", "x": pageX, "y":250 });
+            else{
+              that.chartByInitID.push(v.id);
+              if(i == 2){
+                nodes.push({"id": "more_"+v.id, "user": "more_"+v.user, "label": "点击展开", "radius": 20, "type": "more", "nodeType": "path", "x": pageX, "y":250 });
+              }
+              nodes.push({"id": v.id, "user": v.user, "label": v.label, "radius": v.radius, "type": v.type, "nodeType": v.nodeType, "x":pageX, "y":250 });
+              pageX = pageX + 100;
             }
-            nodes.push({"id": v.id, "user": v.user, "label": v.label, "radius": v.radius, "type": v.type, "nodeType": v.nodeType, "x":pageX, "y":250 });
-            pageX = pageX + 100;
           });
           
           //筛选links
@@ -74,8 +79,10 @@ export default {
             if(i == nodes.length-1){
               return false;
             }
-            let filter = chartData.links.filter((v1, i1)=>{ if(v.id == v1.from){ return v1; } });
-            links.push({"id":v.id, "from": v.id, "to": nodes[i+1].id, "shares_perc": filter.length == 0 ? '' : filter[0].shares_perc, "nodeType": v.nodeType });
+            else{
+              let filter = chartData.links.filter((v1, i1)=>{ if(v.id == v1.from){ return v1; } });
+              links.push({"id":v.id, "from": v.id, "to": nodes[i+1].id, "shares_perc": filter.length == 0 ? '' : filter[0].shares_perc, "nodeType": v.nodeType });
+            }
           });
           that.chartData = {"nodes": nodes, "links": links};
         }
@@ -84,8 +91,17 @@ export default {
             nodes.push({"id": v.id, "user": v.user, "label": v.label, "radius": v.radius, "type": v.type, "nodeType": v.nodeType, "x": pageX, "y": 250 });
             pageX = pageX + 100;
           });
-          chartData = {"nodes": nodes, "links": data.links};
-          that.chartData = chartData;
+          
+          if(that.addNodeData.length > 0 && that.addLinksData.length > 0){
+            that.addNodeData.forEach((v, i)=>{
+              nodes.push(v);
+            });
+            that.addLinksData.forEach((v, i)=>{
+              data.links.push(v);
+            });
+            
+          }
+          that.chartData = {"nodes": nodes, "links": data.links};
         }
         //加载图标 填充
         that.loadChart();
@@ -94,14 +110,14 @@ export default {
     },
     loadChart() {
       let that = this;
-      // console.log(that.chartData);
+      
       that.netchart = new NetChart({
         container: document.getElementById("tree-horizontal"),
         area: { height: 600 },
         data: { preloaded: that.chartData },
         navigation: {
           // mode: "showAll",
-          // initialNodes: that.chartInitID
+          initialNodes: that.chartByInitID
         },
         // layout:{mode:"static"},
         interaction: {
@@ -145,8 +161,9 @@ export default {
           onClick(event, args) {
             if(args.clickNode && args.clickNode.data.label == '点击展开'){
               that.showMore = true;
-              that.loadApi();
-              // that.netchart.replaceData(that.initChartData);
+              that.loadApi('reload');
+              // that.netchart.reloadData();
+              // that.netchart.removeData({nodes:[{id:event.clickNode.id}]});
             }
             else{
               this.treeMenuHidden = false;
@@ -162,6 +179,14 @@ export default {
       //请求主节点的数据 数组类型
       that.requestHttp.AJXAGET('../static/json/up.json', {},(data)=>{
         data = {"nodes": data.nodes, "links": data.links};
+        //为了存储每次新增的值 展开更多的时候使用
+        data.nodes.map((v, i)=>{
+          that.addNodeData.push(v);
+        });
+        data.links.map((v, i)=>{
+          that.addLinksData.push(v);
+        });
+
         that.netchart.addData(data);
         that.menuHideHandle();
       });
@@ -171,6 +196,14 @@ export default {
       //请求主节点的数据 数组类型
       that.requestHttp.AJXAGET('../static/json/down.json', {},(data)=>{
         data = {"nodes": data.nodes, "links": data.links};
+        //为了存储每次新增的值 展开更多的时候使用
+        data.nodes.map((v, i)=>{
+          that.addNodeData.push(v);
+        });
+        data.links.map((v, i)=>{
+          that.addLinksData.push(v);
+        });
+
         that.netchart.addData(data);
         that.menuHideHandle();
       });
