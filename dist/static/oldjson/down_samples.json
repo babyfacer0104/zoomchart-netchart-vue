@@ -1,0 +1,28 @@
+{
+  "down":[
+		{
+		  "id": 1,
+		  "name": "账号111",
+		  "parent_node": "41004450800000401",
+		  "start_node": "41004450800000407",
+		  "amount_data":["100.0"],
+		  "children": []
+		},
+		{
+		  "id": 2,
+		  "name": "账号222",
+		  "parent_node": "41004450800000401",
+		  "children": [],
+		  "start_node":"41004450800000408",
+		  "amount_data":["200.0"]
+		},
+		{
+		  "id": 3,
+		  "name": "账号333",
+		  "parent_node": "41004450800000401",
+		  "children": [],
+		  "start_node":"41004450800000409",
+		  "amount_data":["200.0"]
+		}
+  ]
+}
