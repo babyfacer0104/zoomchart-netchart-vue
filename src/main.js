@@ -22,5 +22,11 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created() {
+    console.log('oncontextmenu');
+    document.oncontextmenu = function(e){
+      return false;
+    }
+  }
 })
