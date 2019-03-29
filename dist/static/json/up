@@ -4,5 +4,6 @@
   ],
   "links":[
     {"id":"n_99","from":"n_4", "to":"n_99", "shares_perc":"200元", "nodeType": "up"}
-  ]
+  ],
+  "total": 6
 }

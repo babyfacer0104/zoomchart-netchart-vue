@@ -37,7 +37,7 @@ export default {
       chartByInitID: [], //存放更多展开的数据
       showMore: false,
       showDialog: false,
-      total: 4,//
+      total: 6,//
     }
   },
   components: { 
@@ -54,7 +54,7 @@ export default {
     loadApi(result) {
       let that = this;
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('../static/json/relationPath.json', {},(data)=>{
+      that.requestHttp.AJXAGET('/shortestPath?name="123，456"', {name: '123，456'},(data)=>{
         let nodes = [], links = [], pageX = 120;
         let chartData = {"nodes": data.nodes, "links": data.links};
         that.chartDataLength = data.nodes.length;
@@ -183,11 +183,13 @@ export default {
         interaction: { selection: { lockNodesOnMove: false } }
       });
     },
+    //上游 第一个节点
     topNodeHandle() {
-      let that = this, data = {};
+      let that = this, 
+        data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('../static/json/up.json', {},(data)=>{
+      that.requestHttp.AJXAGET('/up?name='+that.menuList.clickNode.id+'&type=first', {},(data)=>{
         let total = data.total;
         let menuList = that.menuList;
         data = {"nodes": data.nodes, "links": data.links};
@@ -198,20 +200,30 @@ export default {
         data.links.map((v, i)=>{
           that.addLinksData.push(v);
         });
-
-        if(total > that.total){
+        
+        if(data.nodes.length > 0 && that.total >= that.total){//显示更多节点
           data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.id, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
           data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "up"});
+        }
+        else{
+          data.nodes = [];
+          data.links = [];
         }
 
         that.netchart.addData(data);
         that.menuHideHandle();
       });
     },
+    //下游
     bottomNodeHandle() {
-      let that = this, data = {};
+      let that = this, 
+        data = {};
+
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('../static/json/down.json', {},(data)=>{
+      that.requestHttp.AJXAGET('/down?name='+that.menuList.clickNode.id+'&type=first', {},(data)=>{
+        let total = data.total;
+        let menuList = that.menuList;
+        
         data = {"nodes": data.nodes, "links": data.links};
         //为了存储每次新增的值 展开更多的时候使用
         data.nodes.map((v, i)=>{
@@ -221,17 +233,28 @@ export default {
           that.addLinksData.push(v);
         });
 
+        if(data.nodes.length > 0 && that.total >= that.total){//显示更多节点
+          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.id, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
+          data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "up"});
+        }
+        else{
+          data.nodes = [];
+          data.links = [];
+        }
+
         that.netchart.addData(data);
         that.menuHideHandle();
       });
     },
     //上游 点击更多
     clickUpMoreChildHandle(event, args) {
-      let that = this, data = {};
+      let that = this, 
+        data = {};
+      
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('../static/json/up?pageNo=2.json', {},(data)=>{
+      that.requestHttp.AJXAGET('/up?name='+that.menuList.clickNode.id+'&type=last', {},(data)=>{
         this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
-        //
+        
         data = {"nodes": data.nodes, "links": data.links};
 
         //为了存储每次新增的值 展开更多的时候使用
@@ -248,11 +271,13 @@ export default {
     },
     //下游 点击更多
     clickDownMoreChildHandle(event, args) {
-      let that = this, data = {};
+      let that = this, 
+        data = {};
+
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('../static/json/down?pageNo=2.json', {},(data)=>{
+      that.requestHttp.AJXAGET('/down?name='+that.menuList.clickNode.id+'&type=last', {},(data)=>{
         this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
-        //
+        
         data = {"nodes": data.nodes, "links": data.links};
 
         //为了存储每次新增的值 展开更多的时候使用

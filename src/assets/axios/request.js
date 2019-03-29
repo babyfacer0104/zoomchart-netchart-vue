@@ -1,4 +1,7 @@
 import axios from 'axios'
+import server from '../../../static/server.json'
+
+axios.defaults.baseURL=server.serverUrl;
 
 let config = {
     headers: {
