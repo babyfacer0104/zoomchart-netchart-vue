@@ -18,6 +18,7 @@
 <script>
 import { NetChart } from '@dvsl/zoomcharts'
 import Dialog from './common/dialog.vue'
+import server from '../../static/server.json'
 
 export default {
   name: 'relationChart',
@@ -53,9 +54,9 @@ export default {
     //主路径API
     loadApi(result) {
       let that = this;
-
+      // console.log(server.user);
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/shortestPath?name=6217007200020931039,6227007201040291296', {name: '6217007200020931039,6227007201040291296'},(data)=>{
+      that.requestHttp.AJXAGET('/shortestPath?name='+server.user, {name: server.user},(data)=>{
         let nodes = [], links = [], pageX = 120;
         let chartData = {"nodes": data.nodes, "links": data.links};
         that.chartDataLength = data.nodes.length;
