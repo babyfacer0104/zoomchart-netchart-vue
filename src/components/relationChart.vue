@@ -53,8 +53,9 @@ export default {
     //主路径API
     loadApi(result) {
       let that = this;
+
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/shortestPath?name="123，456"', {name: '123，456'},(data)=>{
+      that.requestHttp.AJXAGET('/shortestPath?name=6217007200020931039，622700720104291296', {name: '6217007200020931039，622700720104291296'},(data)=>{
         let nodes = [], links = [], pageX = 120;
         let chartData = {"nodes": data.nodes, "links": data.links};
         that.chartDataLength = data.nodes.length;
