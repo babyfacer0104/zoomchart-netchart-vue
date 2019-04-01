@@ -191,7 +191,7 @@ export default {
         data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/up?name='+that.menuList.clickNode.user+'&type=first', {},(data)=>{
+      that.requestHttp.AJXAGET('/up?name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
         let total = data.total;
         let menuList = that.menuList;
         data = {"nodes": data.nodes, "links": data.links};
@@ -204,7 +204,7 @@ export default {
         });
         
         if(data.nodes.length > 0 && that.total >= that.total){//显示更多节点
-          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.id, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
+          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
           data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "up"});
         }
         else{
@@ -222,7 +222,7 @@ export default {
         data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/down?name='+that.menuList.clickNode.id+'&type=first', {},(data)=>{
+      that.requestHttp.AJXAGET('/down?name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
         let total = data.total;
         let menuList = that.menuList;
         
@@ -236,7 +236,7 @@ export default {
         });
 
         if(data.nodes.length > 0 && that.total >= that.total){//显示更多节点
-          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
+          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
           data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "up"});
         }
         else{
@@ -254,7 +254,7 @@ export default {
         data = {};
       
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/up?name='+that.menuList.clickNode.user+'&type=last', {},(data)=>{
+      that.requestHttp.AJXAGET('/up?name='+that.menuList.clickNode.data.user+'&type=last', {},(data)=>{
         this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
         
         data = {"nodes": data.nodes, "links": data.links};
@@ -277,7 +277,7 @@ export default {
         data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/down?name='+that.menuList.clickNode.user+'&type=last', {},(data)=>{
+      that.requestHttp.AJXAGET('/down?name='+that.menuList.clickNode.data.user+'&type=last', {},(data)=>{
         this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
         
         data = {"nodes": data.nodes, "links": data.links};
