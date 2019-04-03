@@ -170,7 +170,7 @@ export default {
               that.clickUpMoreChildHandle(event, args);
             }
             else if(args.clickNode && event.clickNode.data.type == 'more' && event.clickNode.data.nodeType == 'down'){
-              that.clickDownMoreChildHandle();
+              that.clickDownMoreChildHandle(event, args);
             }
             else{
               this.treeMenuHidden = false;
