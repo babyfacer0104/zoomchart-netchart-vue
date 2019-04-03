@@ -240,8 +240,8 @@ export default {
         });
         //data.nodes.length > 0 && 
         if(total > that.total){//显示更多节点
-          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "down" });
-          data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "down"});
+          data.nodes.push({"id":"more_down_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "down" });
+          data.links.push({"id":"more_down_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_down_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "down"});
         }
         else{
           data.nodes = [];
@@ -257,9 +257,11 @@ export default {
       let that = this, 
         data = {};
       
+      let mId = event.clickNode.data.id.replace('more_', ''); 
+      let mName = event.clickNode.data.user.replace('more_user_', '');
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/up?node='+that.menuList.clickNode.data.id+'&name='+that.menuList.clickNode.data.user+'&type=last', {},(data)=>{
-        this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
+      that.requestHttp.AJXAGET('/up?node='+mId+'&name='+mName+'&type=last', {},(data)=>{
+        this.netchart.removeData({nodes:[{id:event.clickNode.data.id}]});
         
         data = {"nodes": data.nodes, "links": data.links};
 
@@ -281,9 +283,11 @@ export default {
       let that = this, 
         data = {};
 
+      let mId = event.clickNode.data.id.replace('more_down_', ''); 
+      let mName = event.clickNode.data.user.replace('more_user_', '');
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/down?node='+that.menuList.clickNode.data.id+'&name='+that.menuList.clickNode.data.user+'&type=last', {},(data)=>{
-        this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
+      that.requestHttp.AJXAGET('/down?node='+mId+'&name='+mName+'&type=last', {},(data)=>{
+        this.netchart.removeData({nodes:[{id:event.clickNode.data.id}]});
         
         data = {"nodes": data.nodes, "links": data.links};
 
