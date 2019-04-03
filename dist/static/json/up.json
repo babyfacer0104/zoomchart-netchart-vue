@@ -7,11 +7,11 @@
     {"id":"n_21", "user": "000000002", "label":"李栋", "radius": 20, "type": "member", "nodeType": "up" }
   ],
   "links":[
-    {"id":"n_1","from":"n_4", "to":"n_1", "shares_perc":"100元", "nodeType": "up"},
-    {"id":"n_2","from":"n_4", "to":"n_2", "shares_perc":"100元", "nodeType": "up"},
-    {"id":"n_3","from":"n_4", "to":"n_3", "shares_perc":"100元", "nodeType": "up"},
-    {"id":"n_20","from":"n_4", "to":"n_20", "shares_perc":"100元", "nodeType": "up"},
-    {"id":"n_21","from":"n_4", "to":"n_21", "shares_perc":"100元", "nodeType": "up"}
+    {"id":"n_1","from":"n_4", "to":"n_1", "shares_perc":"10000000.01", "nodeType": "up"},
+    {"id":"n_2","from":"n_4", "to":"n_2", "shares_perc":"100000000", "nodeType": "up"},
+    {"id":"n_3","from":"n_4", "to":"n_3", "shares_perc":"1000000000", "nodeType": "up"},
+    {"id":"n_20","from":"n_4", "to":"n_20", "shares_perc":"10000000000", "nodeType": "up"},
+    {"id":"n_21","from":"n_4", "to":"n_21", "shares_perc":"100000000000", "nodeType": "up"}
   ],
   "total": 6
 }

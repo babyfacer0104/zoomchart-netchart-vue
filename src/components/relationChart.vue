@@ -18,7 +18,6 @@
 <script>
 import { NetChart } from '@dvsl/zoomcharts'
 import Dialog from './common/dialog.vue'
-import server from '../../static/server.json'
 
 export default {
   name: 'relationChart',
@@ -38,7 +37,7 @@ export default {
       chartByInitID: [], //存放更多展开的数据
       showMore: false,
       showDialog: false,
-      total: 6,//
+      total: 5,//
     }
   },
   components: { 
@@ -84,7 +83,7 @@ export default {
             }
             else{
               let filter = chartData.links.filter((v1, i1)=>{ if(v.id == v1.from){ return v1; } });
-              links.push({"id":v.id, "from": v.id, "to": nodes[i+1].id, "shares_perc": filter.length == 0 ? '' : filter[0].shares_perc, "nodeType": v.nodeType });
+              links.push({"id":v.id, "from": v.id, "to": nodes[i+1].id, "shares_perc": filter.length == 0 ? '' : that.loadSharesPercHandle(parseFloat(filter[0].shares_perc).toFixed(0)), "nodeType": v.nodeType });
             }
           });
           that.chartData = {"nodes": nodes, "links": links};
@@ -111,6 +110,7 @@ export default {
         
       });
     },
+    //组装图表
     loadChart() {
       let that = this;
       
@@ -191,19 +191,21 @@ export default {
         data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/up?name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
+      that.requestHttp.AJXAGET('/up?node='+that.menuList.clickNode.id+'&name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
         let total = data.total;
         let menuList = that.menuList;
         data = {"nodes": data.nodes, "links": data.links};
+
         //为了存储每次新增的值 展开更多的时候使用
         data.nodes.map((v, i)=>{
           that.addNodeData.push(v);
         });
         data.links.map((v, i)=>{
+          v.shares_perc = that.loadSharesPercHandle(parseFloat(v.shares_perc).toFixed(0));
           that.addLinksData.push(v);
         });
-        
-        if(data.nodes.length > 0 && that.total >= that.total){//显示更多节点
+        //data.nodes.length > 0 && 
+        if(total > that.total){//显示更多节点
           data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
           data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "up"});
         }
@@ -222,22 +224,24 @@ export default {
         data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/down?name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
+      that.requestHttp.AJXAGET('/down?node='+that.menuList.clickNode.id+'&name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
         let total = data.total;
         let menuList = that.menuList;
         
         data = {"nodes": data.nodes, "links": data.links};
+
         //为了存储每次新增的值 展开更多的时候使用
         data.nodes.map((v, i)=>{
           that.addNodeData.push(v);
         });
         data.links.map((v, i)=>{
+          v.shares_perc = that.loadSharesPercHandle(parseFloat(v.shares_perc).toFixed(0));
           that.addLinksData.push(v);
         });
-
-        if(data.nodes.length > 0 && that.total >= that.total){//显示更多节点
-          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
-          data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "up"});
+        //data.nodes.length > 0 && 
+        if(total > that.total){//显示更多节点
+          data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "down" });
+          data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "down"});
         }
         else{
           data.nodes = [];
@@ -254,7 +258,7 @@ export default {
         data = {};
       
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/up?name='+that.menuList.clickNode.data.user+'&type=last', {},(data)=>{
+      that.requestHttp.AJXAGET('/up?node='+that.menuList.clickNode.data.id+'&name='+that.menuList.clickNode.data.user+'&type=last', {},(data)=>{
         this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
         
         data = {"nodes": data.nodes, "links": data.links};
@@ -264,6 +268,7 @@ export default {
           that.addNodeData.push(v);
         });
         data.links.map((v, i)=>{
+          v.shares_perc = that.loadSharesPercHandle(parseFloat(v.shares_perc).toFixed(0));
           that.addLinksData.push(v);
         });
 
@@ -277,7 +282,7 @@ export default {
         data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/down?name='+that.menuList.clickNode.data.user+'&type=last', {},(data)=>{
+      that.requestHttp.AJXAGET('/down?node='+that.menuList.clickNode.data.id+'&name='+that.menuList.clickNode.data.user+'&type=last', {},(data)=>{
         this.netchart.removeData({nodes:[{id:event.clickNode.id}]});
         
         data = {"nodes": data.nodes, "links": data.links};
@@ -287,6 +292,7 @@ export default {
           that.addNodeData.push(v);
         });
         data.links.map((v, i)=>{
+          v.shares_perc = that.loadSharesPercHandle(parseFloat(v.shares_perc).toFixed(0));
           that.addLinksData.push(v);
         });
 
@@ -294,6 +300,20 @@ export default {
         that.menuHideHandle();
       });
     },
+    loadSharesPercHandle(val) {
+      //万位数10000、十万位数100000、百万位数100000、千万位数1000000
+      if(val.length >= 5 && val.length <= 8){
+        return val.replace(val.slice(-4), '')+'万';
+      }
+      //亿位数100000000、十个亿、百个亿、千个亿
+      else if(val.length >= 9 && val.length <= 12){
+        return val.replace(val.slice(-8), '')+'亿';
+      }
+      else{
+        return val;
+      }
+    },
+    //节点图片类型 分类
     nodeStyle(node){
       if(node.data.radius == 35 && node.data.type != "more" && node.data.nodeType == "path"){
         node.image = "../static/" + node.data.nodeType + '_' + node.data.type + "_max.png";
