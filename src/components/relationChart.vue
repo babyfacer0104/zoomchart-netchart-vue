@@ -99,6 +99,7 @@ export default {
               nodes.push(v);
             });
             that.addLinksData.forEach((v, i)=>{
+              v.shares_perc = that.loadSharesPercHandle(parseFloat(v.shares_perc).toFixed(0));
               data.links.push(v);
             });
             
@@ -196,6 +197,9 @@ export default {
         let menuList = that.menuList;
         data = {"nodes": data.nodes, "links": data.links};
 
+        if(data.nodes.length == 0){
+          return false;
+        }
         //为了存储每次新增的值 展开更多的时候使用
         data.nodes.map((v, i)=>{
           that.addNodeData.push(v);
@@ -208,10 +212,6 @@ export default {
         if(total > that.total){//显示更多节点
           data.nodes.push({"id":"more_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "up" });
           data.links.push({"id":"more_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "up"});
-        }
-        else{
-          data.nodes = [];
-          data.links = [];
         }
 
         that.netchart.addData(data);
@@ -230,6 +230,10 @@ export default {
         
         data = {"nodes": data.nodes, "links": data.links};
 
+        if(data.nodes.length == 0){
+          return false;
+        }
+
         //为了存储每次新增的值 展开更多的时候使用
         data.nodes.map((v, i)=>{
           that.addNodeData.push(v);
@@ -242,10 +246,6 @@ export default {
         if(total > that.total){//显示更多节点
           data.nodes.push({"id":"more_down_"+menuList.clickNode.id, "user": "more_user_"+menuList.clickNode.data.user, "label":"更多", "radius": 20, "type": "more", "nodeType": "down" });
           data.links.push({"id":"more_down_"+menuList.clickNode.id, "from":menuList.clickNode.id, "to":"more_down_"+menuList.clickNode.id, "shares_perc":"", "nodeType": "down"});
-        }
-        else{
-          data.nodes = [];
-          data.links = [];
         }
 
         that.netchart.addData(data);
