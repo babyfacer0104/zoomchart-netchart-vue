@@ -93,13 +93,17 @@ export default {
             nodes.push({"id": v.id, "user": v.user, "label": v.label, "radius": v.radius, "type": v.type, "nodeType": v.nodeType, "x": pageX, "y": 250 });
             pageX = pageX + 100;
           });
+          //为了做过滤金额
+          chartData.links.map((v, i)=>{
+            v.shares_perc = that.loadSharesPercHandle(parseFloat(v.shares_perc).toFixed(0));
+            data.links.push(v);
+          });         
           
           if(that.addNodeData.length > 0 && that.addLinksData.length > 0){
             that.addNodeData.forEach((v, i)=>{
               nodes.push(v);
             });
             that.addLinksData.forEach((v, i)=>{
-              v.shares_perc = that.loadSharesPercHandle(parseFloat(v.shares_perc).toFixed(0));
               data.links.push(v);
             });
             
