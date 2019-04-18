@@ -55,7 +55,7 @@ export default {
       let that = this;
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/shortestPath.json?name='+this.$route.query.name, {},(data)=>{
+      that.requestHttp.AJXAGET('/shortestPath?name='+this.$route.query.name, {},(data)=>{
         let nodes = [], links = [], pageX = 120;//默认值
         let chartData = {"nodes": data.nodes, "links": data.links};
         that.chartDataLength = data.nodes.length;
@@ -216,7 +216,7 @@ export default {
         data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/up.json?node='+that.menuList.clickNode.id+'&name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
+      that.requestHttp.AJXAGET('/up?node='+that.menuList.clickNode.id+'&name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
         let total = data.total;
         let menuList = that.menuList;
         data = {"nodes": data.nodes, "links": data.links};
