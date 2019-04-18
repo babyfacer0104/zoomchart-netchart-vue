@@ -55,26 +55,44 @@ export default {
       let that = this;
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/shortestPath?name='+this.$route.query.name, {},(data)=>{
-        let nodes = [], links = [], pageX = 120;
+      that.requestHttp.AJXAGET('/shortestPath.json?name='+this.$route.query.name, {},(data)=>{
+        let nodes = [], links = [], pageX = 120;//默认值
         let chartData = {"nodes": data.nodes, "links": data.links};
         that.chartDataLength = data.nodes.length;
+        //8除5四舍五入=2； 8减5=3
+        let chu = Math.ceil(that.chartDataLength/that.total);
+        let jian = Math.ceil(that.chartDataLength-that.total);
 
+        //显示更多
         if(data.nodes.length > 5 && !that.showMore){
-          //过滤 插入更多
+          //每个节点pageX
           chartData.nodes.map((v, i)=>{
-            if(i > 3 && v.radius == 20){
+            //中间去掉 显示
+            if(i >= chu && jian > 0){
+              jian--;
               return false;
             }
-            else{
-              that.chartByInitID.push(v.id);
-              if(i == 2){
-                nodes.push({"id": "more_"+v.id, "user": "more_"+v.user, "label": "点击展开", "radius": 20, "type": "more", "nodeType": "path", "x": pageX, "y":250 });
-              }
-              nodes.push({"id": v.id, "user": v.user, "label": v.label, "radius": v.radius, "type": v.type, "nodeType": v.nodeType, "x":pageX, "y":250 });
-              pageX = pageX + 100;
-            }
+            v['x'] = pageX;
+            v['y'] = 250;
+            nodes.push(v);
+
+            pageX = pageX + 100;
           });
+          //过滤 插入更多节点
+          nodes.splice(chu,0,{"id": "more_"+chu, "user": "more_"+chu, "label": "点击展开", "radius": 20, "type": "more", "nodeType": "path", "x": nodes[chu].x, "y": 250 });
+
+          //老写法，直接赋值！
+          // if(i > 3 && v.radius == 20){
+          //   return false;
+          // }
+          // else{
+              // that.chartByInitID.push(v.id);
+              // if(i == 2){
+              //   nodes.push({"id": "more_"+v.id, "user": "more_"+v.user, "label": "点击展开", "radius": 20, "type": "more", "nodeType": "path", "x": pageX, "y":250 });
+              // }
+              // nodes.push({"id": v.id, "user": v.user, "label": v.label, "radius": v.radius, "type": v.type, "nodeType": v.nodeType, "x":pageX, "y":250 });
+              // pageX = pageX + 100;
+          //}
           
           //筛选links
           nodes.map((v, i)=>{
@@ -83,11 +101,13 @@ export default {
             }
             else{
               let filter = chartData.links.filter((v1, i1)=>{ if(v.id == v1.from){ return v1; } });
-              links.push({"id":v.id, "from": v.id, "to": nodes[i+1].id, "shares_perc": filter.length == 0 ? '' : that.loadSharesPercHandle(parseFloat(filter[0].shares_perc).toFixed(0)), "nodeType": v.nodeType });
+              links.push({"id":v.id, "from": v.id, "to": nodes[i+1].id, "shares_perc": filter.length == 0 || i==(chu-1) ? '' : that.loadSharesPercHandle(parseFloat(filter[0].shares_perc).toFixed(0)), "nodeType": v.nodeType });
             }
           });
+
           that.chartData = {"nodes": nodes, "links": links};
         }
+        //展开更多
         else{
           chartData.nodes.map((v, i)=>{
             nodes.push({"id": v.id, "user": v.user, "label": v.label, "radius": v.radius, "type": v.type, "nodeType": v.nodeType, "x": pageX, "y": 250 });
@@ -125,7 +145,7 @@ export default {
         data: { preloaded: that.chartData },
         navigation: {
           // mode: "showAll",
-          initialNodes: that.chartByInitID
+          //initialNodes: that.chartByInitID
         },
         // layout:{mode:"static"},
         interaction: {
@@ -196,7 +216,7 @@ export default {
         data = {};
 
       //请求主节点的数据 数组类型
-      that.requestHttp.AJXAGET('/up?node='+that.menuList.clickNode.id+'&name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
+      that.requestHttp.AJXAGET('/up.json?node='+that.menuList.clickNode.id+'&name='+that.menuList.clickNode.data.user+'&type=first', {},(data)=>{
         let total = data.total;
         let menuList = that.menuList;
         data = {"nodes": data.nodes, "links": data.links};

@@ -15,7 +15,7 @@
     {"id":"n_6","from":"n_6", "to":"n_9", "shares_perc":"300元", "nodeType": "path"},
     {"id":"n_8","from":"n_9", "to":"n_11", "shares_perc":"400元", "nodeType": "path"},
     {"id":"n_10","from":"n_11", "to":"n_12", "shares_perc":"500元", "nodeType": "path"},
-    {"id":"n_11","from":"n_12", "to":"n_16", "shares_perc":"500元", "nodeType": "path"},
-    {"id":"n_7","from":"n_16", "to":"n_7", "shares_perc":"500元", "nodeType": "path"}
+    {"id":"n_11","from":"n_12", "to":"n_16", "shares_perc":"600元", "nodeType": "path"},
+    {"id":"n_7","from":"n_16", "to":"n_7", "shares_perc":"700元", "nodeType": "path"}
   ]
 }
