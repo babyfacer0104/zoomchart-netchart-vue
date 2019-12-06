@@ -1,7 +1,7 @@
 {
   "name": "vuex",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "zoomchart-netchart-project",
   "author": "yoyo",
   "private": true,
   "scripts": {

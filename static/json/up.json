@@ -1,10 +1,10 @@
 {
   "nodes":[
-    {"id":"n_1", "user": "000000001", "label":"孙静", "radius": 20, "type": "member", "nodeType": "up" },
-    {"id":"n_2", "user": "000000002", "label":"吴复申", "radius": 20, "type": "member", "nodeType": "up" },
-    {"id":"n_3", "user": "000000002", "label":"李栋", "radius": 20, "type": "member", "nodeType": "up" },
-    {"id":"n_20", "user": "000000002", "label":"李栋", "radius": 20, "type": "member", "nodeType": "up" },
-    {"id":"n_21", "user": "000000002", "label":"李栋", "radius": 20, "type": "member", "nodeType": "up" }
+    {"id":"n_1", "user": "000000001", "label":"节点8", "radius": 20, "type": "member", "nodeType": "up" },
+    {"id":"n_2", "user": "000000002", "label":"节点9", "radius": 20, "type": "member", "nodeType": "up" },
+    {"id":"n_3", "user": "000000002", "label":"节点10", "radius": 20, "type": "member", "nodeType": "up" },
+    {"id":"n_20", "user": "000000002", "label":"节点11", "radius": 20, "type": "member", "nodeType": "up" },
+    {"id":"n_21", "user": "000000002", "label":"节点12", "radius": 20, "type": "member", "nodeType": "up" }
   ],
   "links":[
     {"id":"n_1","from":"n_4", "to":"n_1", "shares_perc":"10000000.01", "nodeType": "up"},

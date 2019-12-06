@@ -1,7 +1,7 @@
 {
   "nodes":[
-    {"id":"n_17", "user": "000000008", "label":"张鑫", "radius": 20, "type": "member", "nodeType": "down" },
-    {"id":"n_18", "user": "000000010", "label":"李文静", "radius": 20, "type": "member", "nodeType": "down" }
+    {"id":"n_17", "user": "000000008", "label":"节点13", "radius": 20, "type": "member", "nodeType": "down" },
+    {"id":"n_18", "user": "000000010", "label":"节点14", "radius": 20, "type": "member", "nodeType": "down" }
   ],
   "links":[
     {"id":"n_17","from":"n_4", "to":"n_17", "shares_perc":"400元", "nodeType": "down"},

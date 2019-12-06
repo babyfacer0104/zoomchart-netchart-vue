@@ -1,13 +1,13 @@
 {
   "nodes":[
-    {"id":"n_4", "user": "000000004", "label":"深圳市小牛咨询有限公司", "radius": 35, "type": "company", "nodeType": "path" },
-    {"id":"n_5", "user": "000000006", "label":"刘印", "radius": 20, "type": "member", "nodeType": "path" },
-    {"id":"n_6", "user": "000000006", "label":"王航", "radius": 20, "type": "member", "nodeType": "path" },
-    {"id":"n_9", "user": "000000009", "label":"刘书红", "radius": 20, "type": "member", "nodeType": "path" },
-    {"id":"n_11", "user": "000000011", "label":"黄黎", "radius": 20, "type": "member", "nodeType": "path" },
-    {"id":"n_12", "user": "000000012", "label":"张燕娇", "radius": 20, "type": "member", "nodeType": "path" },
-    {"id":"n_16", "user": "000000016", "label":"白国俊", "radius": 20, "type": "member", "nodeType": "path" },
-    {"id":"n_7", "user": "000000007", "label":"和海峰", "radius": 35, "type": "member", "nodeType": "path" }
+    {"id":"n_4", "user": "000000004", "label":"主节点", "radius": 35, "type": "company", "nodeType": "path" },
+    {"id":"n_5", "user": "000000006", "label":"节点1", "radius": 20, "type": "member", "nodeType": "path" },
+    {"id":"n_6", "user": "000000006", "label":"节点2", "radius": 20, "type": "member", "nodeType": "path" },
+    {"id":"n_9", "user": "000000009", "label":"节点3", "radius": 20, "type": "member", "nodeType": "path" },
+    {"id":"n_11", "user": "000000011", "label":"节点4", "radius": 20, "type": "member", "nodeType": "path" },
+    {"id":"n_12", "user": "000000012", "label":"节点5", "radius": 20, "type": "member", "nodeType": "path" },
+    {"id":"n_16", "user": "000000016", "label":"节点6", "radius": 20, "type": "member", "nodeType": "path" },
+    {"id":"n_7", "user": "000000007", "label":"节点7", "radius": 35, "type": "member", "nodeType": "path" }
   ],
   "links":[
     {"id":"n_4","from":"n_4", "to":"n_5", "shares_perc":"100元", "nodeType": "path"},
