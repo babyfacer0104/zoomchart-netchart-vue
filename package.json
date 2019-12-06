@@ -14,7 +14,7 @@
     "vue-router": "^3.0.1",
     "vue-resource": "*",
     "vuex": "*",
-    "axios": "^0.18.0"
+    "axios": "^0.18.1"
   },
   "devDependencies": {
     "@dvsl/zoomcharts": "^1.18.9-nightly",
